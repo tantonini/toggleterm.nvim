@@ -300,19 +300,9 @@ end
 --- @param size number
 --- @param term Terminal
 function M.open_split(size, term)
-  local has_open, windows = M.find_open_windows()
   local commands = split_commands[term.direction]
 
-  if has_open then
-    -- we need to be in the terminal window most recently opened
-    -- in order to split it
-    local split_win = windows[#windows]
-    if config.persist_size then M.save_window_size(term.direction, split_win.window) end
-    api.nvim_set_current_win(split_win.window)
-    vim.cmd(commands.existing)
-  else
-    vim.cmd(commands.new)
-  end
+  vim.cmd(commands.new)
 
   M.resize_split(term, size)
   create_term_buf_if_needed(term)
